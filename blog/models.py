@@ -7,4 +7,4 @@ class Post(models.Model):
     cuerpo = models.TextField()
 
     def __str__(self):
-        return self.titulo
+        return f"{self.pk} - {self.titulo}"
