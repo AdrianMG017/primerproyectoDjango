@@ -1,16 +1,12 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Principal</title>
-</head>
-<body>
-    <h1>¡Hola, este es mi primera pagina de Django!</h1>
-    <p>Mola esto de programar en Django</p>
+{% extends 'blog/base.html' %}
+{% block titulo %}Entradas del Blog{% endblock %}
+
+{% block contenido %}
     <ul>
         {% for post in posts %}
             <li><a href="{% url 'detalle_post' pk=post.pk %}">{{post.titulo}} ({{post.autor}})</a></li>
+        {% empty %}
+            <li>No tiene entradas</li>
         {% endfor %}
     </ul>
     <ul>
@@ -18,5 +14,4 @@
             <li>{{autor}}</li>
         {% endfor %}
     </ul>
-</body>
-</html>
+{% endblock %}
