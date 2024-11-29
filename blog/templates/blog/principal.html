@@ -11,7 +11,7 @@
     </ul>
     <ul>
         {% for autor in autores %}
-            <li>{{autor}}</li>
+            <li><a href="{% url 'detalle_autor' pk=autor.pk %}">{{autor}}</a></li>
         {% endfor %}
     </ul>
 {% endblock %}
