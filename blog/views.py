@@ -1,6 +1,6 @@
-from django.shortcuts import render, get_object_or_404,HttpResponseRedirect
+from django.shortcuts import render, get_object_or_404,HttpResponseRedirect, redirect
 from .models import Post,Autor
-from .forms import post_Form
+from .forms import post_Form, post_form_model,AuthorForm
 # Create your views here.
 def principal(request):
     context = Post.objects.all()
@@ -33,7 +33,7 @@ def new(request):
 
 def post_new(request):
     if request.method == "POST":
-        form = post_Form(request.POST)
+        form = post_form_model(request.POST)
         if form.is_valid():
             titulo = form.cleaned_data["titulo"]
             cuerpo = form.cleaned_data["cuerpo"]
@@ -43,21 +43,51 @@ def post_new(request):
             Post.objects.create(titulo=titulo,autor=autor,cuerpo=cuerpo,fcreacion=fcreacion)
             return render(request, 'blog/post_added.html')
     else:
-        form = post_Form()
+        form = post_form_model()
     return render(request, 'blog/post_new.html', {"form":form})
     
 def post_cambiar(request,pk):
     post = get_object_or_404(Post,pk=pk)
-
     if request.method == "POST":
-        form = post_Form(request.POST)
+        form = post_form_model(request.POST,instance=post)
         if form.is_valid():
-            post.titulo = form.cleaned_data["titulo"]
-            post.cuerpo = form.cleaned_data["cuerpo"]
-            post.fcreacion = form.cleaned_data["fcreacion"]
+            #post.titulo = form.cleaned_data["titulo"]
+            #post.cuerpo = form.cleaned_data["cuerpo"]
+            #post.fcreacion = form.cleaned_data["fcreacion"]
             #fcreacion = request.POST["fcreacion"]
-            post.save()
-            return render(request, 'blog/post_added.html')
+            #post.save()
+            form.save()
+            return redirect('principal')
+            #return render(request, 'blog/post_added.html')
     else:
-        form = post_Form(initial=post.__dict__)
+        form = post_form_model(instance=post)
     return render(request,"blog/post_cambiar.html",{"form":form})
+
+def form_autor(request):
+    if request.method == "POST":
+        form = AuthorForm(request.POST)
+        if form.is_valid():
+            form.save()
+            return redirect('autores')
+    else:
+        form = AuthorForm()
+    return render(request,"blog/form_autor.html",{"form":form})
+
+def autor_edit(request, pk):
+    autor = get_object_or_404(Autor, pk=pk)
+    if request.method == "POST":
+        form = AuthorForm(request.POST, instance=autor)
+        if form.is_valid():
+            form.save()
+            return redirect('principal')
+    else:
+        form = AuthorForm(instance=autor)
+    return render(request,"blog/autor_edit.html",{"form":form})
+
+def delete_autor(request,pk):
+    autor = get_object_or_404(Autor, pk=pk)
+    if request.method == "POST":
+        autor.delete()
+        return redirect('autores')
+    else:
+        return render(request,"blog/delete_autor.html")

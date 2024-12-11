@@ -106,8 +106,6 @@ AUTH_PASSWORD_VALIDATORS = [
 
 TIME_ZONE = 'Europe/Berlin'
 
-LANGUAGE_CODE = 'es-es'
-
 STATIC_URL = 'static/'
 
 STATIC_ROOT = BASE_DIR / 'static'
