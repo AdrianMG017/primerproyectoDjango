@@ -14,5 +14,6 @@
     {% endif %}
         
     <a href="{% url 'autores' %}">Volver</a>
+    <a href="{% url 'autor_edit' pk=autor.pk %}">Editar Autor</a>
     <a href="{% url 'delete_autor' pk=autor.pk %}">Eliminar Autor</a>
 {% endblock %}
