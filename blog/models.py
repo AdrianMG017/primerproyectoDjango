@@ -1,4 +1,7 @@
 from django.db import models
+from django.core.exceptions import ValidationError
+
+
 
 # Create your models here.
 class Autor (models.Model):
@@ -7,7 +10,7 @@ class Autor (models.Model):
     email = models.EmailField(unique=True)
     dni = models.CharField(unique=True, max_length=9)
     bio = models.TextField(blank=True, verbose_name="Biografía")
-    fnacimiento = models.DateField(null=True)
+    fnacimiento = models.DateField(null=True,blank=True)
 
     class Meta:
         verbose_name = "Autor"
@@ -24,3 +27,4 @@ class Post(models.Model):
 
     def __str__(self):
         return f"{self.pk} - {self.titulo}"
+    

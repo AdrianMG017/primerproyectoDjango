@@ -90,4 +90,4 @@ def delete_autor(request,pk):
         autor.delete()
         return redirect('autores')
     else:
-        return render(request,"blog/delete_autor.html")
+        return render(request,"blog/delete_autor.html",{"autor":autor})
